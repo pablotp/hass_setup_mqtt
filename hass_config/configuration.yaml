@@ -1,0 +1,17 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# NOTE: The block below is not needed as mqtt is enabled per default.
+# MQTT configuration can be done over the UI - Easier for beginners.
+#mqtt:
+#  broker: mosquitto
+#  discovery: true

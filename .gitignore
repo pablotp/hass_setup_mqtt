@@ -1,0 +1,4 @@
+.DS_Store
+hass_config/.*
+hass_config/*.log
+hass_config/*.db

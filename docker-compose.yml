@@ -1,0 +1,46 @@
+version: '3'
+services:
+# NOTE: Disable MariaDB until the setup with MQTT is working to reduce potential points of failure
+#  mariadb:
+#    restart: always
+#    image: mariadb:latest
+#    environment:
+#      MYSQL_ROOT_PASSWORD: 'hass_root_password'
+#      MYSQL_USER: 'hass_user'
+#      MYSQL_PASS: 'hass_password'
+#      MYSQL_DATABASE: 'hass'
+#        #      MYSQL_ROOT_HOST: '%'
+#        #    command: --init-file /data/application/init.sql
+#    #ports:
+#    #  - "3306:3306"
+#    expose:
+#      - 3306
+#    network_mode: host
+#    volumes:
+#      - ./datavolume:/var/lib/mysql
+#        #      - ./init.sql:/data/application/init.sql
+  homeassistant:
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    #ports:
+    #  - "8123:8123"
+    expose:
+      - 8123
+    network_mode: host
+    volumes:
+      - ./hass_config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    depends_on: 
+      - mosquitto
+# NOTE: The block below is needed if you add a Zigbee antenna
+#    devices:
+#      - /dev/ttyACM0:/dev/ttyACM0
+
+  mosquitto:
+    image: eclipse-mosquitto
+    volumes:
+      - ./mosquitto-config:/mosquitto/config
+    network_mode: host
+    expose:
+      - 1883
